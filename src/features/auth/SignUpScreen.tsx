@@ -13,6 +13,9 @@ import {
 } from 'react-native';
 import { AuthStackParamList } from '../../types/navigation';
 import { Colors } from '@/constants/theme';
+import { Stack } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import LocalTotoLogo from '@/src/components/ui/LocalTotoLogo';
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'SignUp'>;
 
@@ -21,6 +24,7 @@ type Props = {
 };
 
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const scheme = useColorScheme();
   const theme = Colors[scheme ?? 'light'];
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -36,14 +40,16 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const isDisabled = phoneNumber.trim().length < 7;
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
+    <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, backgroundColor: theme.background }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.surface }]}>
-        <Text style={[styles.headerTitle, { color: theme.text }]}>Sign Up</Text>
+
+      <View style={styles.header}>
+        <LocalTotoLogo size="medium" />
+        <Text style={styles.headerTitle}>Sign Up</Text>
       </View>
 
-      <ScrollView 
-        contentContainerStyle={[styles.content, { backgroundColor: theme.background }]} 
+      <ScrollView
+        contentContainerStyle={[styles.content, { backgroundColor: theme.background }]}
         showsVerticalScrollIndicator={false}
       >
         <Text style={[styles.formTitle, { color: theme.text }]}>Enter your phone number</Text>
@@ -69,7 +75,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         {/* Continue Button */}
         <TouchableOpacity
           style={[
-            styles.continueButton, 
+            styles.continueButton,
             { backgroundColor: isDisabled ? '#9CA3AF' : '#22C55E' }
           ]}
           onPress={handleContinue}
@@ -96,12 +102,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    padding: 20,
+    flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 1,
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '700',
   },
   content: {

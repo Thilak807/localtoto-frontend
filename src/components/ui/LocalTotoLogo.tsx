@@ -32,17 +32,16 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   logoBox: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#22C55E',
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },
   logoText: {
-    color: '#22C55E',
+    color: "white",
     fontWeight: '700',
   },
   brandText: {
-    color: '#FFFFFF',
     fontWeight: '600',
   },
 });

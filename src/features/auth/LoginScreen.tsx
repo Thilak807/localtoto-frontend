@@ -8,10 +8,13 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import { AuthStackParamList } from '../../types/navigation';
 import LocalTotoLogo from '../../components/ui/LocalTotoLogo';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Colors } from '@/constants/theme';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -20,6 +23,9 @@ type Props = {
 };
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const scheme = useColorScheme()
+  const theme = Colors[scheme ?? 'light'];
+  const insets = useSafeAreaInsets();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,7 +38,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const isDisabled = phoneNumber.trim().length < 7 || password.length < 6;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top }]}>
       {/* Header */}
       <View style={styles.header}>
         <LocalTotoLogo size="medium" />
@@ -71,7 +77,16 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             onChangeText={setPassword}
           />
           <TouchableOpacity style={styles.forgotPassword}>
-            <Text style={styles.forgotPasswordText}>Forget Password ??</Text>
+            <Text style={styles.forgotPasswordText}>Forget Password ??{" "}</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.loginContainer}>
+          <Text style={[styles.loginText, { color: theme.textMuted }]}>
+            New here?{' '}
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+            <Text style={[styles.loginLink, { color: theme.tint }]}>Sign Up</Text>
           </TouchableOpacity>
         </View>
 
@@ -97,14 +112,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#374151',
     paddingHorizontal: 20,
     paddingVertical: 16,
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: '700',
-    color: '#FFFFFF',
   },
   content: {
     padding: 24,
@@ -161,6 +174,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: '700',
+  },
+  loginContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 16,
+  },
+  loginText: {
+    fontSize: 14,
+  },
+  loginLink: {
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
 
